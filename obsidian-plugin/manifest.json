@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-bridge-companion",
+  "name": "Obsidian Bridge Companion",
+  "version": "0.1.3",
+  "minAppVersion": "1.5.0",
+  "description": "Receives authenticated local requests from Obsidian Bridge for VS Code and routes them to the active note or Canvas.",
+  "author": "Daryoush Alipour Tirotir",
+  "authorUrl": "https://github.com/tirotir-ir",
+  "isDesktopOnly": true
+}

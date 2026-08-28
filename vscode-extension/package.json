@@ -1,0 +1,183 @@
+{
+  "name": "obsidian-bridge",
+  "displayName": "Obsidian Bridge",
+  "description": "Send selections and Markdown files from VS Code to a local Obsidian vault and JSON Canvas.",
+  "version": "0.1.3",
+  "publisher": "daryoushalipourtirotir",
+  "author": {
+    "name": "Daryoush Alipour Tirotir",
+    "url": "https://github.com/tirotir-ir/obsidian-bridge"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tirotir-ir/obsidian-bridge"
+  },
+  "homepage": "https://marketplace.visualstudio.com/publishers/daryoushalipourtirotir",
+  "bugs": {
+    "url": "https://github.com/tirotir-ir/obsidian-bridge"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "obsidianBridge.sendSelectionToNote",
+        "title": "Send Selection to Obsidian Note",
+        "category": "Obsidian Bridge",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.appendSelectionToCurrentNote",
+        "title": "Append Selection to Current Obsidian Note",
+        "category": "Obsidian Bridge",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.sendSelectionToCanvas",
+        "title": "Send Selection to Canvas",
+        "category": "Obsidian Bridge",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.sendCurrentMarkdownFile",
+        "title": "Send Current Markdown File to Obsidian",
+        "category": "Obsidian Bridge",
+        "enablement": "resourceExtname == .md"
+      },
+      {
+        "command": "obsidianBridge.configureVault",
+        "title": "Configure Vault Path",
+        "category": "Obsidian Bridge"
+      },
+      {
+        "command": "obsidianBridge.configureCanvas",
+        "title": "Choose Obsidian Canvas",
+        "category": "Obsidian Bridge"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "obsidianBridge.sendSelectionToNote",
+          "group": "navigation@20",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "obsidianBridge.appendSelectionToCurrentNote",
+          "group": "navigation@21",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "obsidianBridge.sendSelectionToCanvas",
+          "group": "navigation@22",
+          "when": "editorHasSelection"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "obsidianBridge.sendCurrentMarkdownFile",
+          "group": "navigation@20",
+          "when": "resourceExtname == .md"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "obsidianBridge.sendSelectionToNote",
+        "key": "ctrl+alt+o",
+        "mac": "cmd+alt+o",
+        "when": "editorTextFocus && editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.appendSelectionToCurrentNote",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a",
+        "when": "editorTextFocus && editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.sendSelectionToCanvas",
+        "key": "ctrl+alt+c",
+        "mac": "cmd+alt+c",
+        "when": "editorTextFocus && editorHasSelection"
+      },
+      {
+        "command": "obsidianBridge.sendCurrentMarkdownFile",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "editorTextFocus && resourceExtname == .md"
+      }
+    ],
+    "configuration": {
+      "title": "Obsidian Bridge",
+      "properties": {
+        "obsidianBridge.vaultPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the target Obsidian vault, for example C:\\O\\others.",
+          "order": 1
+        },
+        "obsidianBridge.canvasPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional Canvas path, absolute or relative to the vault. Leave empty to use the active Canvas reported by the companion plugin.",
+          "order": 2
+        },
+        "obsidianBridge.defaultFolder": {
+          "type": "string",
+          "default": "Inbox",
+          "description": "Destination folder inside the vault for new notes and copied Markdown files.",
+          "order": 3
+        },
+        "obsidianBridge.vaultName": {
+          "type": "string",
+          "default": "",
+          "description": "Optional registered Obsidian vault name. When blank, the vault folder name is used for opening notes.",
+          "order": 4
+        },
+        "obsidianBridge.companionServerUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:27124",
+          "description": "Optional local companion plugin address. It provides the currently open Canvas and saves directly into it.",
+          "order": 5
+        },
+        "obsidianBridge.companionToken": {
+          "type": "string",
+          "default": "",
+          "description": "Optional shared token configured in the Obsidian Bridge companion plugin.",
+          "order": 6
+        },
+        "obsidianBridge.currentFileMode": {
+          "type": "string",
+          "enum": ["ask", "copy", "link"],
+          "default": "ask",
+          "description": "How to transfer the current Markdown file: prompt each time, copy it, or create a hard link on the same Windows drive.",
+          "order": 7
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test:logic": "npm run compile && node ../tests/run-logic-tests.js",
+    "package": "vsce package --out ../dist/obsidian-bridge-0.1.3.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vscode/vsce": "^3.2.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.6.0"
+  }
+}

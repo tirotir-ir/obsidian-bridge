@@ -1,0 +1,22 @@
+{
+  "name": "obsidian-bridge-companion",
+  "version": "0.1.3",
+  "private": true,
+  "description": "Local Obsidian companion for Obsidian Bridge VS Code extension.",
+  "author": "Daryoush Alipour Tirotir",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tirotir-ir/obsidian-bridge"
+  },
+  "homepage": "https://github.com/tirotir-ir/obsidian-bridge",
+  "main": "main.js",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --platform=node --external:obsidian --format=cjs --target=es2020 --outfile=main.js",
+    "dev": "esbuild src/main.ts --bundle --platform=node --external:obsidian --format=cjs --target=es2020 --outfile=main.js --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest"
+  }
+}
